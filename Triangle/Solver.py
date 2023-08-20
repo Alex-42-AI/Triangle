@@ -1,12 +1,20 @@
 from Personal.Triangle.Functions import *
+
+
 def rotate_right(ls):
     if len(ls) == 2:
         return rotate_right(ls[0]), rotate_right(ls[1])
-    return [ls[2], ls[0], ls[1], ls[5], ls[3], ls[4], ls[8], ls[6], ls[7], ls[9], ls[10], ls[13], ls[11], ls[12], ls[16], ls[14], ls[15], ls[17], ls[18]]
+    return [ls[2], ls[0], ls[1], ls[5], ls[3], ls[4], ls[8], ls[6], ls[7], ls[9], ls[10], ls[13], ls[11], ls[12],
+            ls[16], ls[14], ls[15], ls[17], ls[18]]
+
+
 def switch_1_and_2(ls):
     if len(ls) == 2:
         return switch_1_and_2(ls[0]), switch_1_and_2(ls[1])
-    return [ls[0], ls[2], ls[1], ls[3], ls[5], ls[4], ls[6], ls[8], ls[7], ls[9], ls[10], ls[11], ls[13], ls[12], ls[14], ls[16], ls[15], ls[17], ls[18]]
+    return [ls[0], ls[2], ls[1], ls[3], ls[5], ls[4], ls[6], ls[8], ls[7], ls[9], ls[10], ls[11], ls[13], ls[12],
+            ls[14], ls[16], ls[15], ls[17], ls[18]]
+
+
 def side_angle_side1(side, side1, angle, angle1, angle2, h, h1, h2):
     R = get_outer_radius(side, angle)
     if side == h2 or side >= side1:
@@ -98,7 +106,11 @@ def side_angle_side1(side, side1, angle, angle1, angle2, h, h1, h2):
     b_b2 = get_bisector(b_angle2, side, side1)
     a_r = get_inner_radius(a_S, a_P)
     b_r = get_inner_radius(b_S, b_P)
-    return [side, side1, a_side2, angle, a_angle1, a_angle2, a_h, a_h1, h2, a_P, a_S, a_m, a_m1, a_m2, a_b, a_b1, a_b2, R, a_r], [side, side1, b_side2, angle, b_angle1, b_angle2, b_h, b_h1, h2, b_P, b_S, b_m, b_m1, b_m2, b_b, b_b1, b_b2, R, b_r]
+    return [side, side1, a_side2, angle, a_angle1, a_angle2, a_h, a_h1, h2, a_P, a_S, a_m, a_m1, a_m2, a_b, a_b1, a_b2,
+            R, a_r], [side, side1, b_side2, angle, b_angle1, b_angle2, b_h, b_h1, h2, b_P, b_S, b_m, b_m1, b_m2, b_b,
+                      b_b1, b_b2, R, b_r]
+
+
 def side_angle1_height1(side, angle1, h1, h2):
     if h1 > side or angle1 >= pi / 2 and h1 >= h2:
         raise ValueError("Invalid input!")
@@ -133,7 +145,9 @@ def side_angle1_height1(side, angle1, h1, h2):
         b_R = get_outer_radius(side, b_angle)
         a_r = get_inner_radius(a_S, a_P)
         b_r = get_inner_radius(b_S, b_P)
-        return [side, a_side1, a_side2, a_angle, angle1, a_angle2, a_h, h1, h2, a_P, a_S, a_m, a_m1, a_m2, a_b, a_b1, a_b2, a_R, a_r], [side, b_side1, b_side2, b_angle, angle1, b_angle2, b_h, h1, h2, b_P, b_S, b_m, b_m1, b_m2, b_b, b_b1, b_b2, b_R, b_r]
+        return [side, a_side1, a_side2, a_angle, angle1, a_angle2, a_h, h1, h2, a_P, a_S, a_m, a_m1, a_m2, a_b, a_b1,
+                a_b2, a_R, a_r], [side, b_side1, b_side2, b_angle, angle1, b_angle2, b_h, h1, h2, b_P, b_S, b_m, b_m1,
+                                  b_m2, b_b, b_b1, b_b2, b_R, b_r]
     angle2 = get_angle_from_height_and_side(h1, side)
     angle = get_third_angle(angle1, angle2)
     side1 = get_side_from_sin_theorem(side, angle, angle1)
@@ -150,6 +164,8 @@ def side_angle1_height1(side, angle1, h1, h2):
     R = get_outer_radius(side, angle)
     r = get_inner_radius(S, P)
     return [side, side1, side2, angle, angle1, angle2, h, h1, h2, P, S, m, m1, m2, b, b1, b2, R, r]
+
+
 def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
     if side1:
         if side2:
@@ -281,9 +297,11 @@ def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
             h2 = get_height(S, side2)
         elif h:
             S = side * h / 2
-            if h > R + sqrt(R ** 2 - side ** 2 / 4) and angle <= pi / 2 or h > R - sqrt(R ** 2 - side ** 2 / 4) and angle > pi / 2:
+            if h > R + sqrt(R ** 2 - side ** 2 / 4) and angle <= pi / 2 or h > R - sqrt(
+                    R ** 2 - side ** 2 / 4) and angle > pi / 2:
                 raise ValueError("Invalid input!")
-            angle1 = get_angle_from_height_and_side(h, sqrt((side / 2 - sqrt(R ** 2 - (h + (-1) ** (angle < pi / 2) * sqrt(R ** 2 - side ** 2 / 4)) ** 2)) ** 2 + h ** 2))
+            angle1 = get_angle_from_height_and_side(h, sqrt((side / 2 - sqrt(
+                R ** 2 - (h + (-1) ** (angle < pi / 2) * sqrt(R ** 2 - side ** 2 / 4)) ** 2)) ** 2 + h ** 2))
             angle2 = get_third_angle(angle, angle1)
             side1 = get_side_from_sin_theorem(side, angle, angle1)
             side2 = get_side_from_2_sides(side, side1, angle2)
@@ -391,6 +409,8 @@ def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
     R = get_outer_radius(side, angle)
     r = get_inner_radius(S, P)
     return [side, side1, side2, angle, angle1, angle2, h, h1, h2, P, S, m, m1, m2, b, b1, b2, R, r]
+
+
 def given_angle(angle, angle1, angle2, h, h1, h2):
     if angle1 or angle2:
         if angle1:
@@ -468,11 +488,14 @@ def given_angle(angle, angle1, angle2, h, h1, h2):
     R = get_outer_radius(side, angle)
     r = get_inner_radius(S, P)
     return [side, side1, side2, angle, angle1, angle2, h, h1, h2, P, S, m, m1, m2, b, b1, b2, R, r]
+
+
 def given_height(h, h1, h2):
     if h1 and h2:
         if 1 / h + 1 / h1 <= 1 / h2 or 1 / h + 1 / h2 <= 1 / h1 or 1 / h1 + 1 / h2 <= 1 / h:
             raise ValueError("Invalid input!")
-        S = 1 / sqrt((1 / h + 1 / h1 + 1 / h2) * (1 / h1 - 1 / h + 1 / h2) * (1 / h - 1 / h1 + 1 / h2) * (1 / h + 1 / h1 - 1 / h2))
+        S = 1 / sqrt((1 / h + 1 / h1 + 1 / h2) * (1 / h1 - 1 / h + 1 / h2) * (1 / h - 1 / h1 + 1 / h2) * (
+                    1 / h + 1 / h1 - 1 / h2))
         side = 2 * S / h
         side1 = 2 * S / h1
         side2 = 2 * S / h2
@@ -490,6 +513,8 @@ def given_height(h, h1, h2):
         r = get_inner_radius(S, P)
         return [side, side1, side2, angle, angle1, angle2, h, h1, h2, P, S, m, m1, m2, b, b1, b2, R, r]
     return [0] * 6 + [h, h1 if h1 else 0, h2 if h2 else 0] + [0] * 10
+
+
 def calculate_triangle(a=None, b=None, c=None, A=None, B=None, C=None, h_a=None, h_b=None, h_c=None, radians=False):
     if not radians:
         if A:
@@ -513,6 +538,8 @@ def calculate_triangle(a=None, b=None, c=None, A=None, B=None, C=None, h_a=None,
     if h_a:
         return given_height(h_a, h_b, h_c)
     return [0] * 7 + [h_b if h_b else 0, h_c if h_c else 0] + [0] * 10
+
+
 if __name__ == '__main__':
     Triangle = ['a', 'b', 'c', 'A', 'B', 'C', 'h_a', 'h_b', 'h_c', 'P', 'S', 'm_a', 'm_b', 'm_c', 'b_a', 'b_b', 'b_c', 'R', 'r']
     inpt = input().split('; ')
