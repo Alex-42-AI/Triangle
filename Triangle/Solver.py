@@ -4,15 +4,13 @@ from Personal.Triangle.Functions import *
 def rotate_right(ls):
     if len(ls) == 2:
         return rotate_right(ls[0]), rotate_right(ls[1])
-    return [ls[2], ls[0], ls[1], ls[5], ls[3], ls[4], ls[8], ls[6], ls[7], ls[9], ls[10], ls[13], ls[11], ls[12],
-            ls[16], ls[14], ls[15], ls[17], ls[18]]
+    return [ls[2], ls[0], ls[1], ls[5], ls[3], ls[4], ls[8], ls[6], ls[7], ls[9], ls[10], ls[13], ls[11], ls[12], ls[16], ls[14], ls[15], ls[17], ls[18]]
 
 
 def switch_1_and_2(ls):
     if len(ls) == 2:
         return switch_1_and_2(ls[0]), switch_1_and_2(ls[1])
-    return [ls[0], ls[2], ls[1], ls[3], ls[5], ls[4], ls[6], ls[8], ls[7], ls[9], ls[10], ls[11], ls[13], ls[12],
-            ls[14], ls[16], ls[15], ls[17], ls[18]]
+    return [ls[0], ls[2], ls[1], ls[3], ls[5], ls[4], ls[6], ls[8], ls[7], ls[9], ls[10], ls[11], ls[13], ls[12], ls[14], ls[16], ls[15], ls[17], ls[18]]
 
 
 def side_angle_side1(side, side1, angle, angle1, angle2, h, h1, h2):
@@ -106,9 +104,7 @@ def side_angle_side1(side, side1, angle, angle1, angle2, h, h1, h2):
     b_b2 = get_bisector(b_angle2, side, side1)
     a_r = get_inner_radius(a_S, a_P)
     b_r = get_inner_radius(b_S, b_P)
-    return [side, side1, a_side2, angle, a_angle1, a_angle2, a_h, a_h1, h2, a_P, a_S, a_m, a_m1, a_m2, a_b, a_b1, a_b2,
-            R, a_r], [side, side1, b_side2, angle, b_angle1, b_angle2, b_h, b_h1, h2, b_P, b_S, b_m, b_m1, b_m2, b_b,
-                      b_b1, b_b2, R, b_r]
+    return [side, side1, a_side2, angle, a_angle1, a_angle2, a_h, a_h1, h2, a_P, a_S, a_m, a_m1, a_m2, a_b, a_b1, a_b2, R, a_r], [side, side1, b_side2, angle, b_angle1, b_angle2, b_h, b_h1, h2, b_P, b_S, b_m, b_m1, b_m2, b_b, b_b1, b_b2, R, b_r]
 
 
 def side_angle1_height1(side, angle1, h1, h2):
@@ -145,9 +141,7 @@ def side_angle1_height1(side, angle1, h1, h2):
         b_R = get_outer_radius(side, b_angle)
         a_r = get_inner_radius(a_S, a_P)
         b_r = get_inner_radius(b_S, b_P)
-        return [side, a_side1, a_side2, a_angle, angle1, a_angle2, a_h, h1, h2, a_P, a_S, a_m, a_m1, a_m2, a_b, a_b1,
-                a_b2, a_R, a_r], [side, b_side1, b_side2, b_angle, angle1, b_angle2, b_h, h1, h2, b_P, b_S, b_m, b_m1,
-                                  b_m2, b_b, b_b1, b_b2, b_R, b_r]
+        return [side, a_side1, a_side2, a_angle, angle1, a_angle2, a_h, h1, h2, a_P, a_S, a_m, a_m1, a_m2, a_b, a_b1, a_b2, a_R, a_r], [side, b_side1, b_side2, b_angle, angle1, b_angle2, b_h, h1, h2, b_P, b_S, b_m, b_m1, b_m2, b_b, b_b1, b_b2, b_R, b_r]
     angle2 = get_angle_from_height_and_side(h1, side)
     angle = get_third_angle(angle1, angle2)
     side1 = get_side_from_sin_theorem(side, angle, angle1)
@@ -297,11 +291,9 @@ def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
             h2 = get_height(S, side2)
         elif h:
             S = side * h / 2
-            if h > R + sqrt(R ** 2 - side ** 2 / 4) and angle <= pi / 2 or h > R - sqrt(
-                    R ** 2 - side ** 2 / 4) and angle > pi / 2:
+            if h > R + sqrt(R ** 2 - side ** 2 / 4) and angle <= pi / 2 or h > R - sqrt(R ** 2 - side ** 2 / 4) and angle > pi / 2:
                 raise ValueError("Invalid input!")
-            angle1 = get_angle_from_height_and_side(h, sqrt((side / 2 - sqrt(
-                R ** 2 - (h + (-1) ** (angle < pi / 2) * sqrt(R ** 2 - side ** 2 / 4)) ** 2)) ** 2 + h ** 2))
+            angle1 = get_angle_from_height_and_side(h, sqrt((side / 2 - sqrt(R ** 2 - (h + (-1) ** (angle < pi / 2) * sqrt(R ** 2 - side ** 2 / 4)) ** 2)) ** 2 + h ** 2))
             angle2 = get_third_angle(angle, angle1)
             side1 = get_side_from_sin_theorem(side, angle, angle1)
             side2 = get_side_from_2_sides(side, side1, angle2)
@@ -342,7 +334,7 @@ def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
         elif h1:
             return side_angle1_height1(side, angle1, h1, h2)
         else:
-            return [side] + [0, 0, 0] + [angle1] + [0] * 3 + [h2] + [0] * 10
+            return [side] + [0] * 3 + [angle1] + [0] * 3 + [h2] + [0] * 10
     elif angle2:
         h1 = side / sin(angle2)
         if h:
@@ -355,7 +347,7 @@ def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
         elif h2:
             return switch_1_and_2(side_angle1_height1(side, angle2, h2, h1))
         else:
-            return [side, 0, 0, 0, 0, angle2, 0] + [h1] + [0] * 11
+            return [side] + [0] * 4 + [angle2, 0, h1] + [0] * 11
     elif h:
         S = side * h / 2
         if h1:
@@ -475,7 +467,7 @@ def given_angle(angle, angle1, angle2, h, h1, h2):
         else:
             return [0] * 2 + [side2, angle] + [0] * 3 + [h1] + [0] * 11
     elif h2:
-        return [0, h2 / sin(angle), 0, angle, 0, 0, 0, 0, h2] + [0] * 10
+        return [0, h2 / sin(angle), 0, angle] + [0] * 4 + [h2] + [0] * 10
     else:
         return [0] * 3 + [angle] + [0] * 15
     P = side + side1 + side2
@@ -494,8 +486,7 @@ def given_height(h, h1, h2):
     if h1 and h2:
         if 1 / h + 1 / h1 <= 1 / h2 or 1 / h + 1 / h2 <= 1 / h1 or 1 / h1 + 1 / h2 <= 1 / h:
             raise ValueError("Invalid input!")
-        S = 1 / sqrt((1 / h + 1 / h1 + 1 / h2) * (1 / h1 - 1 / h + 1 / h2) * (1 / h - 1 / h1 + 1 / h2) * (
-                    1 / h + 1 / h1 - 1 / h2))
+        S = 1 / sqrt((1 / h + 1 / h1 + 1 / h2) * (1 / h1 - 1 / h + 1 / h2) * (1 / h - 1 / h1 + 1 / h2) * (1 / h + 1 / h1 - 1 / h2))
         side = 2 * S / h
         side1 = 2 * S / h1
         side2 = 2 * S / h2
@@ -524,20 +515,24 @@ def calculate_triangle(a=None, b=None, c=None, A=None, B=None, C=None, h_a=None,
         if C:
             C = deg_to_rad(C)
     if a:
-        return given_side(a, b, c, A, B, C, h_a, h_b, h_c)
-    if b:
-        return rotate_right(switch_1_and_2(given_side(b, a, c, B, A, C, h_b, h_a, h_c)))
-    if c:
-        return rotate_right(rotate_right(given_side(c, a, b, C, A, B, h_c, h_a, h_b)))
-    if A:
-        return given_angle(A, B, C, h_a, h_b, h_c)
-    if B:
-        return rotate_right(switch_1_and_2(given_angle(B, A, C, h_b, h_a, h_c)))
-    if C:
-        return rotate_right(rotate_right(given_angle(C, A, B, h_c, h_a, h_b)))
-    if h_a:
-        return given_height(h_a, h_b, h_c)
-    return [0] * 7 + [h_b if h_b else 0, h_c if h_c else 0] + [0] * 10
+        res = given_side(a, b, c, A, B, C, h_a, h_b, h_c)
+    elif b:
+        res = rotate_right(switch_1_and_2(given_side(b, a, c, B, A, C, h_b, h_a, h_c)))
+    elif c:
+        res = rotate_right(rotate_right(given_side(c, a, b, C, A, B, h_c, h_a, h_b)))
+    elif A:
+        res = given_angle(A, B, C, h_a, h_b, h_c)
+    elif B:
+        res = rotate_right(switch_1_and_2(given_angle(B, A, C, h_b, h_a, h_c)))
+    elif C:
+        res = rotate_right(rotate_right(given_angle(C, A, B, h_c, h_a, h_b)))
+    elif h_a:
+        res = given_height(h_a, h_b, h_c)
+    else:
+        res = [0] * 7 + [h_b if h_b else 0, h_c if h_c else 0] + [0] * 10
+    if not radians:
+        res = res[:3] + [180 * res[3] / pi, 180 * res[4] / pi, 180 * res[5] / pi] + res[6:]
+    return res
 
 
 if __name__ == '__main__':
