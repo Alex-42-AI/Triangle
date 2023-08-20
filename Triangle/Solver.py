@@ -524,7 +524,7 @@ if __name__ == '__main__':
     result = calculate_triangle(*values, radians=rads)
     if len(result) == 2:
         res0, res1 = result
-        print(dict(zip(Triangle, map(lambda x: round_if_possible(x, 3), res0))))
-        print(dict(zip(Triangle, map(lambda x: round_if_possible(x, 3), res1))))
+        print(dict(zip(Triangle, map(lambda x: round(x, 3), res0))))
+        print(dict(zip(Triangle, map(lambda x: round(x, 3), res1))))
     else:
-        print(dict(zip(Triangle, map(lambda x: round_if_possible(x, 3), result))))
+        print(dict(zip(Triangle, map(lambda x: round(x, 3), result))))
