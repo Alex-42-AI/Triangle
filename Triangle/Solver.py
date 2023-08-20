@@ -506,7 +506,7 @@ def given_height(h, h1, h2):
     return [0] * 6 + [h, h1 if h1 else 0, h2 if h2 else 0] + [0] * 10
 
 
-def calculate_triangle(a=None, b=None, c=None, A=None, B=None, C=None, h_a=None, h_b=None, h_c=None, radians=False):
+def calculate_triangle(a=0, b=0, c=0, A=0, B=0, C=0, h_a=0, h_b=0, h_c=0, radians=False):
     if not radians:
         if A:
             A = deg_to_rad(A)
