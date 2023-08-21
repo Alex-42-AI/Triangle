@@ -454,7 +454,9 @@ def given_height(h, h1, h2):
     return [0] * 6 + [h, h1 if h1 else 0, h2 if h2 else 0] + [0] * 10
 
 
-def get_coordinates(res_triangle: [float]):
+def get_coordinates(res_triangle):
+    if len(res_triangle) == 2:
+        return get_coordinates(res_triangle[0]), get_coordinates(res_triangle[1])
     A_coords = (0, 0)
     B_coords = (0, 0)
     if res_triangle[3] and res_triangle[1]:
@@ -501,10 +503,7 @@ def calculate_triangle(a=0, b=0, c=0, A=0, B=0, C=0, h_a=0, h_b=0, h_c=0, radian
         res = given_height(h_a, h_b, h_c)
     else:
         res = [0] * 7 + [h_b if h_b else 0, h_c if h_c else 0] + [0] * 10
-    if len(res) == 2:
-        res = (res[0] + get_coordinates(res[0]), res[1] + get_coordinates(res[1]))
-    else:
-        res += get_coordinates(res)
+    res += get_coordinates(res)
     if not radians:
         if len(res) == 2:
             res = (res[0][:3] + [180 * res[0][3] / pi, 180 * res[0][4] / pi, 180 * res[0][5] / pi] + res[0][6:],
