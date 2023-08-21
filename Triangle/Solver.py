@@ -16,7 +16,7 @@ def switch_1_and_2(ls):
 def side_angle_side1(side, side1, angle, angle1, angle2, h, h1, h2):
     R = get_outer_radius(side, angle)
     if side == h2 or side >= side1:
-        side2 = sqrt(side1 ** 2 - side ** 2)
+        side2 = sqrt(side ** 2 - h2 ** 2) + sqrt(side1 ** 2 - h2 ** 2)
         angle1 = get_angle_from_3_sides(side1, side, side2)
         angle2 = get_third_angle(angle, angle1)
         P = side + side1 + side2
@@ -183,7 +183,7 @@ def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
             h2 = side * sin(angle1)
             return rotate_right(switch_1_and_2(side_angle_side1(side1, side, angle1, angle, angle2, h1, h, h2)))
         elif angle2:
-            if not legit_angle(angle1):
+            if not legit_angle(angle2):
                 raise ValueError("Invalid input!")
             side2 = get_side_from_2_sides(side, side1, angle2)
             angle = get_angle_from_3_sides(side, side1, side2)
@@ -415,7 +415,7 @@ def given_angle(angle, angle1, angle2, h, h1, h2):
         else:
             return [0] * 2 + [side2, angle] + [0] * 3 + [h1] + [0] * 11
     elif h2:
-        return [0, h2 / sin(angle), 0, angle] + [0] * 4 + [h2] + [0] * 10
+        return [0, h2 / sin(angle), 0, angle, 0, 0, 0, 0, h2] + [0] * 10
     else:
         return [0] * 3 + [angle] + [0] * 15
     P = side + side1 + side2
@@ -465,7 +465,7 @@ def calculate_triangle(a=0, b=0, c=0, A=0, B=0, C=0, h_a=0, h_b=0, h_c=0, radian
     if a:
         res = given_side(a, b, c, A, B, C, h_a, h_b, h_c)
     elif b:
-        res = rotate_right(switch_1_and_2(given_side(b, a, c, B, A, C, h_b, h_a, h_c)))
+        res = rotate_right(given_side(b, c, a, B, C, A, h_b, h_c, h_a))
     elif c:
         res = rotate_right(rotate_right(given_side(c, a, b, C, A, B, h_c, h_a, h_b)))
     elif A:
@@ -479,7 +479,11 @@ def calculate_triangle(a=0, b=0, c=0, A=0, B=0, C=0, h_a=0, h_b=0, h_c=0, radian
     else:
         res = [0] * 7 + [h_b if h_b else 0, h_c if h_c else 0] + [0] * 10
     if not radians:
-        res = res[:3] + [180 * res[3] / pi, 180 * res[4] / pi, 180 * res[5] / pi] + res[6:]
+        if len(res) == 2:
+            res = (res[0][:3] + [180 * res[0][3] / pi, 180 * res[0][4] / pi, 180 * res[0][5] / pi] + res[0][6:],
+                   res[1][:3] + [180 * res[1][3] / pi, 180 * res[1][4] / pi, 180 * res[1][5] / pi] + res[1][6:])
+        else:
+            res = res[:3] + [180 * res[3] / pi, 180 * res[4] / pi, 180 * res[5] / pi] + res[6:]
     return res
 
 
