@@ -456,15 +456,23 @@ def given_height(h, h1, h2):
 
 def get_coordinates(res_triangle: [float]):
     A_coords = (0, 0)
-    B_coords = (sin(res_triangle[3]) * res_triangle[1], cos(res_triangle[3]) * res_triangle[1])
-    C_coords = (res_triangle[2], 0)
-    coordinates = [A_coords, B_coords, C_coords, ((B_coords[0] + C_coords[0]) / 3, (B_coords[1] + C_coords[1]) / 3)]
-    angle_towards_outer_circle_center = (pi - get_angle_from_3_sides(res_triangle[2], res_triangle[17], res_triangle[17])) / 2
-    outer_center_y = res_triangle[17] * sin(angle_towards_outer_circle_center)
-    outer_center_x = sqrt(res_triangle[17] ** 2 - outer_center_y ** 2)
+    B_coords = (0, 0)
+    if res_triangle[3] and res_triangle[1]:
+        B_coords = (sin(res_triangle[3]) * res_triangle[1], cos(res_triangle[3]) * res_triangle[1])
+    C_coords = (0, 0)
+    if res_triangle[2]:
+        C_coords = (res_triangle[2], 0)
+    coordinates = [A_coords, B_coords, C_coords, ((B_coords[0] + C_coords[0]) / 3, (B_coords[1] + C_coords[1]) / 3) if B_coords[0] + B_coords[1] and C_coords[0] + C_coords[1] else (0, 0)]
+    outer_center_x, outer_center_y = 0, 0
+    if res_triangle[2] and res_triangle[17]:
+        angle_towards_outer_circle_center = (pi - get_angle_from_3_sides(res_triangle[2], res_triangle[17], res_triangle[17])) / 2
+        outer_center_y = res_triangle[17] * sin(angle_towards_outer_circle_center)
+        outer_center_x = sqrt(res_triangle[17] ** 2 - outer_center_y ** 2)
     coordinates.append((outer_center_x, outer_center_y))
     inner_radius_y = res_triangle[18]
-    inner_radius_x = inner_radius_y / tan(res_triangle[3] / 2)
+    inner_radius_x = 0
+    if res_triangle[3]:
+        inner_radius_x = inner_radius_y / tan(res_triangle[3] / 2)
     coordinates.append((inner_radius_x, inner_radius_y))
     return coordinates
 
