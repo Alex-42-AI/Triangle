@@ -1,5 +1,6 @@
 from math import *
 
+
 def legit_angle(angle, given=0):
     return 0 < angle < pi - given
 
