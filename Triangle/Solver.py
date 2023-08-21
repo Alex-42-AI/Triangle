@@ -257,12 +257,7 @@ def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
             return switch_1_and_2(side_angle_side1(side, side2, angle, angle2, angle1, h, h2, h1))
         elif h2:
             side1 = h2 / sin(angle)
-            angle1 = get_angle_from_height_and_side(h2, side)
-            angle2 = get_third_angle(angle, angle1)
-            side2 = get_side_from_2_sides(side, side1, angle2)
-            S = get_surface(side, side1, side2)
-            h = get_height(S, side)
-            h1 = get_height(S, side1)
+            return side_angle_side1(side, side1, angle, angle1, angle2, h, h1, h2)
         else:
             return [side, 0, 0, angle] + [0] * 13 + [get_outer_radius(side, angle), 0]
     elif angle1:
