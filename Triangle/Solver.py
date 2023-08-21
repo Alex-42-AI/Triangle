@@ -477,14 +477,13 @@ def get_coordinates(res_triangle: [float]):
     return coordinates
 
 
-def calculate_triangle(a=0, b=0, c=0, A=0, B=0, C=0, h_a=0, h_b=0, h_c=0, radians=False):
-    if not radians:
-        if A:
-            A = deg_to_rad(A)
-        if B:
-            B = deg_to_rad(B)
-        if C:
-            C = deg_to_rad(C)
+def calculate_triangle(a=0, b=0, c=0, A=0, B=0, C=0, h_a=0, h_b=0, h_c=0):
+    if A:
+        A = radians(A)
+    if B:
+        B = radians(B)
+    if C:
+        C = radians(C)
     if a:
         res = given_side(a, b, c, A, B, C, h_a, h_b, h_c)
     elif b:
@@ -505,12 +504,11 @@ def calculate_triangle(a=0, b=0, c=0, A=0, B=0, C=0, h_a=0, h_b=0, h_c=0, radian
         res = (res[0] + get_coordinates(res[0]), res[1] + get_coordinates(res[1]))
     else:
         res += get_coordinates(res)
-    if not radians:
-        if len(res) == 2:
-            res = (res[0][:3] + [180 * res[0][3] / pi, 180 * res[0][4] / pi, 180 * res[0][5] / pi] + res[0][6:],
-                   res[1][:3] + [180 * res[1][3] / pi, 180 * res[1][4] / pi, 180 * res[1][5] / pi] + res[1][6:])
-        else:
-            res = res[:3] + [180 * res[3] / pi, 180 * res[4] / pi, 180 * res[5] / pi] + res[6:]
+    if len(res) == 2:
+        res = (res[0][:3] + [180 * res[0][3] / pi, 180 * res[0][4] / pi, 180 * res[0][5] / pi] + res[0][6:],
+               res[1][:3] + [180 * res[1][3] / pi, 180 * res[1][4] / pi, 180 * res[1][5] / pi] + res[1][6:])
+    else:
+        res = res[:3] + [180 * res[3] / pi, 180 * res[4] / pi, 180 * res[5] / pi] + res[6:]
     return res
 
 
