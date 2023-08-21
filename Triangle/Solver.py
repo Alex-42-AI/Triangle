@@ -222,54 +222,7 @@ def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
         else:
             return [side, side1] + [0] * 17
     elif side2:
-        if angle:
-            if not legit_angle(angle):
-                raise ValueError("Invalid input!")
-            h1 = side2 * sin(angle)
-            return switch_1_and_2(side_angle_side1(side, side2, angle, angle2, angle1, h, h2, h1))
-        elif angle1:
-            if not legit_angle(angle1):
-                raise ValueError("Invalid input!")
-            side1 = get_side_from_2_sides(side, side2, angle1)
-            angle = get_angle_from_3_sides(side, side1, side2)
-            angle2 = get_third_angle(angle, angle1)
-            S = get_surface(side, side1, side2)
-            h = get_height(S, side)
-            h1 = get_height(S, side1)
-            h2 = get_height(S, side2)
-        elif angle2:
-            if not legit_angle(angle2):
-                raise ValueError("Invalid input!")
-            h1 = side * sin(angle2)
-            return switch_1_and_2(side_angle_side1(side, side2, angle, angle2, angle1, h, h2, h1))
-        elif h or h2:
-            if h:
-                if h > side2:
-                    raise ValueError("Invalid input!")
-                S = side * h / 2
-                h2 = get_height(S, side2)
-            else:
-                if h2 > side:
-                    raise ValueError("Invalid input!")
-                S = side2 * h2 / 2
-                h = get_height(S, side)
-            angle1 = get_angle_from_height_and_side(h1, side2)
-            side1 = get_side_from_2_sides(side, side2, angle1)
-            angle = get_angle_from_3_sides(side, side1, side2)
-            angle2 = get_third_angle(angle, angle1)
-            h1 = get_height(S, side1)
-        elif h1:
-            if h1 > min(side, side2):
-                raise ValueError("Invalid input!")
-            angle = get_angle_from_height_and_side(h1, side2)
-            angle2 = get_angle_from_height_and_side(h1, side)
-            angle1 = get_third_angle(angle, angle2)
-            side1 = get_side_from_2_sides(side, side2, angle1)
-            S = get_surface(side, side1, side2)
-            h = get_height(S, side)
-            h2 = get_height(S, side2)
-        else:
-            return [side, 0, side2] + [0] * 16
+        return switch_1_and_2(given_side(side, side2, side1, angle, angle2, angle1, h, h2, h1))
     elif angle:
         R = get_outer_radius(side, angle)
         if not legit_angle(angle):
