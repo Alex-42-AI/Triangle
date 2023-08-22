@@ -514,12 +514,8 @@ def calculate_triangle(a=0, b=0, c=0, A=0, B=0, C=0, h_a=0, h_b=0, h_c=0):
 
 if __name__ == '__main__':
     Triangle = ['a', 'b', 'c', 'A', 'B', 'C', 'h_a', 'h_b', 'h_c', 'P', 'S', 'm_a', 'm_b', 'm_c', 'b_a', 'b_b', 'b_c', 'R', 'r', 'A coordinates', 'B coordinates', 'C coordinates', 'triangle center', 'outer circle center', 'inner circle center']
-    inpt = input().split('; ')
-    rads = None
-    if len(inpt) == 2:
-        rads = inpt[1] in 'trTR'
     values = list(map(float, inpt[0].split(', ')))
-    result = calculate_triangle(*values, radians=rads)
+    result = calculate_triangle(*values)
     if len(result) == 2:
         res0, res1 = result
         print(dict(zip(Triangle, list(map(lambda x: round(x, 3), res0[:19])) + res0[19:])))
