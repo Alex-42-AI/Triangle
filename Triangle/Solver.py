@@ -501,13 +501,11 @@ def calculate_triangle(a=0, b=0, c=0, A=0, B=0, C=0, h_a=0, h_b=0, h_c=0):
     else:
         res = [0] * 7 + [h_b if h_b else 0, h_c if h_c else 0] + [0] * 10
     if len(res) == 2:
-        res = (res[0] + get_coordinates(res[0]), res[1] + get_coordinates(res[1]))
-    else:
-        res += get_coordinates(res)
-    if len(res) == 2:
+        res = (res[0] + list(map(lambda p: (round(p[0], 3), round(p[1], 3)), get_coordinates(res[0]))), res[1] + list(map(lambda p: (round(p[0], 3), round(p[1], 3)), get_coordinates(res[1]))))
         res = (res[0][:3] + [180 * res[0][3] / pi, 180 * res[0][4] / pi, 180 * res[0][5] / pi] + res[0][6:],
                res[1][:3] + [180 * res[1][3] / pi, 180 * res[1][4] / pi, 180 * res[1][5] / pi] + res[1][6:])
     else:
+        res += list(map(lambda p: (round(p[0], 3), round(p[1], 3)), get_coordinates(res)))
         res = res[:3] + [180 * res[3] / pi, 180 * res[4] / pi, 180 * res[5] / pi] + res[6:]
     return res
 
