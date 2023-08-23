@@ -218,7 +218,6 @@ def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
             S = get_surface(side, side1, side2)
             h = get_height(S, side)
             h1 = get_height(S, side1)
-            h2 = get_height(S, side2)
         else:
             return [side, side1] + [0] * 17
     elif side2:
