@@ -1,4 +1,4 @@
-from Personal.Triangle.Functions import *
+from Triangle.Functions import *
 
 
 def rotate_right(ls):
