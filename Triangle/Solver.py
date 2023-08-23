@@ -454,12 +454,7 @@ def get_coordinates(res_triangle: [float]):
 
 
 def calculate_triangle(a=0, b=0, c=0, A=0, B=0, C=0, h_a=0, h_b=0, h_c=0):
-    if A:
-        A = radians(A)
-    if B:
-        B = radians(B)
-    if C:
-        C = radians(C)
+    A, B, C = radians(A), radians(B), radians(C)
     if a:
         res = given_side(a, b, c, A, B, C, h_a, h_b, h_c)
     elif b:
