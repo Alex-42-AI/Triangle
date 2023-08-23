@@ -214,7 +214,7 @@ def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
             angle = get_angle_from_height_and_side(h2, side1)
             angle1 = get_angle_from_height_and_side(h2, side)
             angle2 = get_third_angle(angle, angle1)
-            side2 = get_side_from_2_sides(angle2, side, side1)
+            side2 = get_side_from_2_sides(side, side1, angle2)
             S = get_surface(side, side1, side2)
             h = get_height(S, side)
             h1 = get_height(S, side1)
@@ -457,11 +457,11 @@ def given_height(h, h1, h2):
 def get_coordinates(res_triangle: [float]):
     A_coords = (0, 0)
     B_coords = (0, 0)
-    if res_triangle[3] and res_triangle[1]:
-        B_coords = (sin(res_triangle[3]) * res_triangle[1], cos(res_triangle[3]) * res_triangle[1])
-    C_coords = (0, 0)
     if res_triangle[2]:
-        C_coords = (res_triangle[2], 0)
+        B_coords = (res_triangle[2], 0)
+    C_coords = (0, 0)
+    if res_triangle[3] and res_triangle[1]:
+        C_coords = (sin(res_triangle[3]) * res_triangle[1], cos(res_triangle[3]) * res_triangle[1])
     coordinates = [A_coords, B_coords, C_coords, ((B_coords[0] + C_coords[0]) / 3, (B_coords[1] + C_coords[1]) / 3) if B_coords[0] + B_coords[1] and C_coords[0] + C_coords[1] else (0, 0)]
     outer_center_x, outer_center_y = 0, 0
     if res_triangle[2] and res_triangle[17]:
@@ -512,8 +512,8 @@ def calculate_triangle(a=0, b=0, c=0, A=0, B=0, C=0, h_a=0, h_b=0, h_c=0):
 
 if __name__ == '__main__':
     Triangle = ['a', 'b', 'c', 'A', 'B', 'C', 'h_a', 'h_b', 'h_c', 'P', 'S', 'm_a', 'm_b', 'm_c', 'b_a', 'b_b', 'b_c', 'R', 'r', 'A coordinates', 'B coordinates', 'C coordinates', 'triangle center', 'outer circle center', 'inner circle center']
-    given = list(map(float, input().split(', ')))
-    result = calculate_triangle(*given)
+    values = dict(map(lambda p: (p[0].rstrip(), float(p[1].lstrip())), map(lambda x: x.split('='), input().split(', '))))
+    result = calculate_triangle(**values)
     if len(result) == 2:
         res0, res1 = result
         print(dict(zip(Triangle, list(map(lambda x: (round(x[0], 3), round(x[1], 3)) if isinstance(x, tuple) else round(x, 3), res0)))))
