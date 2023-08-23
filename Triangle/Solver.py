@@ -427,7 +427,7 @@ def given_height(h, h1, h2):
         R = get_outer_radius(side, angle)
         r = get_inner_radius(S, P)
         return [side, side1, side2, angle, angle1, angle2, h, h1, h2, P, S, m, m1, m2, b, b1, b2, R, r]
-    return [0] * 6 + [h, h1 if h1 else 0, h2 if h2 else 0] + [0] * 10
+    return [0] * 6 + [h, h1, h2] + [0] * 10
 
 
 def get_coordinates(res_triangle: [float]):
@@ -470,14 +470,13 @@ def calculate_triangle(a=0, b=0, c=0, A=0, B=0, C=0, h_a=0, h_b=0, h_c=0):
     elif h_a:
         res = given_height(h_a, h_b, h_c)
     else:
-        res = [0] * 7 + [h_b if h_b else 0, h_c if h_c else 0] + [0] * 10
+        res = [0] * 7 + [h_b, h_c] + [0] * 10
     if len(res) == 2:
         res = (res[0] + get_coordinates(res[0]), res[1] + get_coordinates(res[1]))
-        res = (res[0][:3] + [180 * res[0][3] / pi, 180 * res[0][4] / pi, 180 * res[0][5] / pi] + res[0][6:],
-               res[1][:3] + [180 * res[1][3] / pi, 180 * res[1][4] / pi, 180 * res[1][5] / pi] + res[1][6:])
+        res = (res[0][:3] + list(map(degrees, res[0][3:6])) + res[0][6:], res[1][:3] + list(map(degrees, res[1][3:6])) + res[1][6:])
     else:
         res += get_coordinates(res)
-        res = res[:3] + [180 * res[3] / pi, 180 * res[4] / pi, 180 * res[5] / pi] + res[6:]
+        res = res[:3] + list(map(degrees, res[3:6])) + res[6:]
     return res
 
 
@@ -486,8 +485,7 @@ if __name__ == '__main__':
     values = dict(map(lambda p: (p[0].strip(), float(p[1].strip())), map(lambda x: x.split('='), input().split(', '))))
     result = calculate_triangle(**values)
     if len(result) == 2:
-        res0, res1 = result
-        print(dict(zip(Triangle, list(map(lambda x: (round(x[0], 3), round(x[1], 3)) if isinstance(x, tuple) else round(x, 3), res0)))))
-        print(dict(zip(Triangle, list(map(lambda x: (round(x[0], 3), round(x[1], 3)) if isinstance(x, tuple) else round(x, 3), res1)))))
+        print(dict(zip(Triangle, list(map(lambda x: (round(x[0], 3), round(x[1], 3)) if isinstance(x, tuple) else round(x, 3), result[0])))))
+        print(dict(zip(Triangle, list(map(lambda x: (round(x[0], 3), round(x[1], 3)) if isinstance(x, tuple) else round(x, 3), result[1])))))
     else:
         print(dict(zip(Triangle, list(map(lambda x: (round(x[0], 3), round(x[1], 3)) if isinstance(x, tuple) else round(x, 3), result)))))
