@@ -481,7 +481,7 @@ def calculate_triangle(a=0, b=0, c=0, A=0, B=0, C=0, h_a=0, h_b=0, h_c=0):
 
 if __name__ == '__main__':
     Triangle = ['a', 'b', 'c', 'A', 'B', 'C', 'h_a', 'h_b', 'h_c', 'P', 'S', 'm_a', 'm_b', 'm_c', 'b_a', 'b_b', 'b_c', 'R', 'r', 'A coordinates', 'B coordinates', 'C coordinates', 'triangle center', 'outer circle center', 'inner circle center']
-    values = dict(map(lambda p: (p[0].strip(), float(p[1].strip())), map(lambda x: x.split('='), input().split(', '))))
+    values = dict(map(lambda p: (p[0].strip(), abs(float(p[1].strip()))), map(lambda x: x.split('='), input().split(', '))))
     result = calculate_triangle(**values)
     if len(result) == 2:
         print(dict(zip(Triangle, list(map(lambda x: (round(x[0], 3), round(x[1], 3)) if isinstance(x, tuple) else round(x, 3), result[0])))))
