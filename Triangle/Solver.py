@@ -256,8 +256,7 @@ def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
             side2 = h1 / sin(angle)
             return switch_1_and_2(side_angle_side1(side, side2, angle, angle2, angle1, h, h2, h1))
         elif h2:
-            side1 = h2 / sin(angle)
-            return side_angle_side1(side, side1, angle, angle1, angle2, h, h1, h2)
+            return switch_1_and_2(given_side(side, side2, side1, angle, angle2, angle1, h, h2, h1))
         else:
             return [side, 0, 0, angle] + [0] * 13 + [get_outer_radius(side, angle), 0]
     elif angle1:
@@ -278,24 +277,12 @@ def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
             angle = get_angle_from_3_sides(side, side1, side2)
             angle2 = get_third_angle(angle, angle1)
             h1 = get_height(S, side1)
-            h2 = get_height(S, side2)
         elif h1:
             return side_angle1_height1(side, angle1, h1, h2)
         else:
             return [side] + [0] * 3 + [angle1] + [0] * 3 + [h2] + [0] * 10
     elif angle2:
-        h1 = side / sin(angle2)
-        if h:
-            S = side * h / 2
-            side1 = 2 * S / h1
-            side2 = get_side_from_2_sides(side, side1, angle2)
-            angle = get_angle_from_3_sides(side, side1, side2)
-            angle1 = get_third_angle(angle, angle2)
-            h2 = get_height(S, side2)
-        elif h2:
-            return switch_1_and_2(side_angle1_height1(side, angle2, h2, h1))
-        else:
-            return [side] + [0] * 4 + [angle2, 0, h1] + [0] * 11
+        return switch_1_and_2(given_side(side, side2, side1, angle, angle2, angle1, h, h2, h1))
     elif h:
         S = side * h / 2
         if h1:
@@ -376,12 +363,7 @@ def given_angle(angle, angle1, angle2, h, h1, h2):
             h = get_height(S, side)
             h2 = get_height(S, side2)
         elif h2:
-            side = h2 / sin(angle1)
-            side1 = h2 / sin(angle)
-            side2 = get_side_from_2_sides(side, side1, angle2)
-            S = get_surface(side, side1, side2)
-            h = get_height(S, side)
-            h1 = get_height(S, side1)
+            return switch_1_and_2(given_angle(angle, angle2, angle1, h, h2, h1))
         else:
             return [0] * 3 + [angle, angle1, angle2] + [0] * 13
     elif h:
@@ -394,13 +376,7 @@ def given_angle(angle, angle1, angle2, h, h1, h2):
             S = get_surface(side, side1, side2)
             h2 = get_height(S, side2)
         elif h2:
-            side1 = h2 / sin(angle)
-            angle2 = get_angle_from_height_and_side(h, side1)
-            angle1 = get_third_angle(angle, angle2)
-            side = h2 / sin(angle1)
-            side2 = get_side_from_2_sides(side, side1, angle2)
-            S = get_surface(side, side1, side2)
-            h1 = get_height(S, side1)
+            return switch_1_and_2(given_angle(angle, angle2, angle1, h, h2, h1))
         else:
             return [0] * 3 + [angle] + [0] * 2 + [h] + [0] * 12
     elif h1:
