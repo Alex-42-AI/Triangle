@@ -359,7 +359,7 @@ def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
             S = get_surface(side, side1, side2)
             h = get_height(S, side)
         else:
-            return [side] + [0] * 4 + [angle2, 0, h1] + [0] * 11
+            return [side] + [0] * 4 + [angle2, 0, h1] + [0] * 11, [side] + [0] * 4 + [pi - angle2, 0, h1] + [0] * 11
     elif h2:
         if h2 > side:
             raise ValueError("Invalid input!")
