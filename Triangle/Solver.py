@@ -160,6 +160,63 @@ def side_angle1_height1(side, angle1, h1, h2):
     return [side, side1, side2, angle, angle1, angle2, h, h1, h2, P, S, m, m1, m2, b, b1, b2, R, r]
 
 
+def side_height_height1(side, h, h1, h2):
+    S = side * h / 2
+    if h1 > side:
+        raise ValueError("Invalid input!")
+    side1 = 2 * S / h1
+    if h2 or h1 == side:
+        if h1 == side:
+            side2 = sqrt(side ** 2 + side1 ** 2)
+            angle2 = pi / 2
+        else:
+            if h2 > min(side, side1):
+                raise ValueError("Invalid input!")
+            side2 = 2 * S / h2
+            angle2 = get_angle_from_3_sides(side2, side, side1)
+        angle = get_angle_from_3_sides(side, side1, side2)
+        angle1 = get_third_angle(angle, angle2)
+        P = side + side1 + side2
+        m = get_median(side, side1, side2)
+        m1 = get_median(side1, side, side2)
+        m2 = get_median(side2, side, side1)
+        b = get_bisector(angle, side1, side2)
+        b1 = get_bisector(angle1, side, side2)
+        b2 = get_bisector(angle2, side, side1)
+        R = get_outer_radius(side, angle)
+        r = get_inner_radius(S, P)
+        return [side, side1, side2, angle, angle1, angle2, h, h1, h2, P, S, m, m1, m2, b, b1, b2, R, r]
+    a_angle2 = get_angle_from_height_and_side(h1, side)
+    b_angle2 = pi - a_angle2
+    a_side2 = get_side_from_2_sides(side, side1, a_angle2)
+    b_side2 = get_side_from_2_sides(side, side1, b_angle2)
+    a_h2 = get_height(S, a_side2)
+    b_h2 = get_height(S, b_side2)
+    a_angle = get_angle_from_height_and_side(h1, a_side2)
+    b_angle = get_angle_from_height_and_side(h1, b_side2)
+    a_angle1 = get_third_angle(a_angle, a_angle2)
+    b_angle1 = get_third_angle(b_angle, b_angle2)
+    a_P = side + side1 + a_side2
+    b_P = side + side1 + b_side2
+    a_m = get_median(side, side1, a_side2)
+    b_m = get_median(side, side1, b_side2)
+    a_m1 = get_median(side1, side, a_side2)
+    b_m1 = get_median(side1, side, b_side2)
+    a_m2 = get_median(a_side2, side, side1)
+    b_m2 = get_median(b_side2, side, side1)
+    a_b = get_bisector(a_angle, side1, a_side2)
+    b_b = get_bisector(b_angle, side1, b_side2)
+    a_b1 = get_bisector(a_angle1, side, a_side2)
+    b_b1 = get_bisector(b_angle1, side, b_side2)
+    a_b2 = get_bisector(a_angle2, side, side1)
+    b_b2 = get_bisector(b_angle2, side, side1)
+    a_R = get_outer_radius(side, a_angle)
+    b_R = get_outer_radius(side, b_angle)
+    a_r = get_inner_radius(S, a_P)
+    b_r = get_inner_radius(S, b_P)
+    return [side, side1, a_side2, a_angle, a_angle1, a_angle2, h, h1, a_h2, a_P, S, a_m, a_m1, a_m2, a_b, a_b1, a_b2, a_R, a_r], [side, side1, b_side2, b_angle, b_angle1, b_angle2, h, h1, b_h2, b_P, S, b_m, b_m1, b_m2, b_b, b_b1, b_b2, b_R, b_r]
+
+
 def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
     if side1:
         if side2:
@@ -283,27 +340,11 @@ def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
     elif angle2:
         return switch_1_and_2(given_side(side, side2, side1, angle, angle2, angle1, h, h2, h1))
     elif h:
-        S = side * h / 2
         if h1:
-            if h1 > side:
-                raise ValueError("Invalid input!")
-            side1 = 2 * S / h1
-            angle2 = get_angle_from_height_and_side(h1, side)
-            side2 = get_side_from_2_sides(side, side1, angle2)
-            h2 = get_height(S, side2)
-            angle = get_angle_from_height_and_side(h1, side2)
-            angle1 = get_third_angle(angle, angle2)
-        elif h2:
-            if h2 > side:
-                raise ValueError("Invalid Input!")
-            side2 = 2 * S / h2
-            angle1 = get_angle_from_height_and_side(h2, side)
-            side1 = get_side_from_2_sides(side, side2, angle1)
-            h1 = get_height(S, side1)
-            angle = get_angle_from_height_and_side(h1, side2)
-            angle1 = get_third_angle(angle, angle2)
-        else:
-            return [side] + [0] * 5 + [h] + [0] * 3 + [S] + [0] * 8
+            return side_height_height1(side, h, h1, h2)
+        if h2:
+            return switch_1_and_2(side_height_height1(side, h, h2, h1))
+        return [side] + [0] * 5 + [h] + [0] * 3 + [side * h / 2] + [0] * 8
     elif h1:
         if h1 > side:
             raise ValueError("Invalid input!")
