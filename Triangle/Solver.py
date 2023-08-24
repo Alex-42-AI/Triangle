@@ -476,51 +476,10 @@ def given_angle(angle, angle1, angle2, h, h1, h2):
     elif h:
         if h1:
             side2 = h1 / sin(angle)
-            if side2 < h:
-                raise ValueError("Invalid input!")
-            if h1 >= h:
-                angle1 = get_angle_from_height_and_side(h, side2)
-                angle2 = get_third_angle(angle, angle1)
-                side = h1 / sin(angle2)
-                side1 = get_side_from_2_sides(side, side2, angle1)
-                S = get_surface(side, side1, side2)
-                h2 = get_height(S, side2)
-            else:
-                a_angle1 = get_angle_from_height_and_side(h, side2)
-                b_angle1 = pi - a_angle1
-                a_angle2 = get_third_angle(angle, a_angle1)
-                b_angle2 = get_third_angle(angle, b_angle1)
-                a_side = get_side_from_sin_theorem(side2, a_angle2, angle)
-                b_side = get_side_from_sin_theorem(side2, b_angle2, angle)
-                a_side1 = get_side_from_2_sides(a_side, side2, a_angle1)
-                b_side1 = get_side_from_2_sides(b_side, side2, b_angle1)
-                a_S = get_surface(a_side, a_side1, side2)
-                b_S = get_surface(b_side, b_side1, side2)
-                a_h2 = get_height(a_S, side2)
-                b_h2 = get_height(b_S, side2)
-                a_P = a_side + a_side1 + side2
-                b_P = b_side + b_side1 + side2
-                a_m = get_median(a_side, a_side1, side2)
-                b_m = get_median(b_side, b_side1, side2)
-                a_m1 = get_median(a_side1, a_side, side2)
-                b_m1 = get_median(b_side1, b_side, side2)
-                a_m2 = get_median(side2, a_side, a_side1)
-                b_m2 = get_median(side2, b_side, b_side1)
-                a_b = get_bisector(angle, a_side1, side2)
-                b_b = get_bisector(angle, b_side1, side2)
-                a_b1 = get_bisector(a_angle1, a_side, side2)
-                b_b1 = get_bisector(b_angle1, b_side, side2)
-                a_b2 = get_bisector(a_angle2, a_side, a_side1)
-                b_b2 = get_bisector(b_angle2, b_side, b_side1)
-                a_R = get_outer_radius(a_side, angle)
-                b_R = get_outer_radius(b_side, angle)
-                a_r = get_inner_radius(a_S, a_P)
-                b_r = get_inner_radius(b_S, b_P)
-                return [a_side, a_side1, side2, angle, a_angle1, a_angle2, h, h1, a_h2, a_P, a_S, a_m, a_m1, a_m2, a_b, a_b1, a_b2, a_R, a_r], [b_side, b_side1, side2, angle, b_angle1, b_angle2, h, h1, b_h2, b_P, b_S, b_m, b_m1, b_m2, b_b, b_b1, b_b2, b_R, b_r]
-        elif h2:
+            return switch_1_and_2(rotate_right(switch_1_and_2(side_angle1_height1(side2, angle, h, h1))))
+        if h2:
             return switch_1_and_2(given_angle(angle, angle2, angle1, h, h2, h1))
-        else:
-            return [0] * 3 + [angle] + [0, 0] + [h] + [0] * 12
+        return [0] * 3 + [angle] + [0, 0] + [h] + [0] * 12
     elif h1:
         side2 = h1 * sin(angle)
         if h2:
