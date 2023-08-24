@@ -475,8 +475,7 @@ def given_angle(angle, angle1, angle2, h, h1, h2):
             return [0] * 3 + [angle, angle1, angle2] + [0] * 13
     elif h:
         if h1:
-            side2 = h1 / sin(angle)
-            return switch_1_and_2(rotate_right(switch_1_and_2(side_angle1_height1(side2, angle, h, h1))))
+            return switch_1_and_2(rotate_right(switch_1_and_2(side_angle1_height1(h1 / sin(angle), angle, h, h1))))
         if h2:
             return switch_1_and_2(given_angle(angle, angle2, angle1, h, h2, h1))
         return [0] * 3 + [angle] + [0, 0] + [h] + [0] * 12
