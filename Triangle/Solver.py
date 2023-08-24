@@ -160,8 +160,7 @@ def side_angle1_height1(side, angle1, h1, h2):
     return [side, side1, side2, angle, angle1, angle2, h, h1, h2, P, S, m, m1, m2, b, b1, b2, R, r]
 
 
-def side_height_height1(side, h, h1, h2):
-    S = side * h / 2
+def side_height_height1(side, h, h1, h2, S):
     if h1 > side:
         raise ValueError("Invalid input!")
     side1 = 2 * S / h1
@@ -340,11 +339,12 @@ def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
     elif angle2:
         return switch_1_and_2(given_side(side, side2, side1, angle, angle2, angle1, h, h2, h1))
     elif h:
+        S = side * h / 2
         if h1:
-            return side_height_height1(side, h, h1, h2)
+            return side_height_height1(side, h, h1, h2, S)
         if h2:
-            return switch_1_and_2(side_height_height1(side, h, h2, h1))
-        return [side] + [0] * 5 + [h] + [0] * 3 + [side * h / 2] + [0] * 8
+            return switch_1_and_2(side_height_height1(side, h, h2, h1, S))
+        return [side] + [0] * 5 + [h] + [0] * 3 + [S] + [0] * 8
     elif h1:
         if h1 > side:
             raise ValueError("Invalid input!")
