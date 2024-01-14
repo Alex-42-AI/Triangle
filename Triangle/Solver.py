@@ -557,7 +557,7 @@ def get_coordinates(res_triangle: [float]):
     C_coords = (0, 0)
     if res_triangle[3] and res_triangle[1]:
         C_coords = (cos(res_triangle[3]) * res_triangle[1], res_triangle[8])
-    coordinates = [A_coords, B_coords, C_coords, ((B_coords[0] + C_coords[0]) / 3, C_coords[1] / 3) if B_coords[0] and C_coords[0] + C_coords[1] else (0, 0)]
+    coordinates = [A_coords, B_coords, C_coords, ((B_coords[0] + C_coords[0]) / 3, C_coords[1] / 3)]
     outer_center_x, outer_center_y = 0, 0
     if res_triangle[2] and res_triangle[17]:
         angle_towards_outer_circle_center = (pi - get_angle_from_3_sides(res_triangle[2], res_triangle[17], res_triangle[17])) / 2
