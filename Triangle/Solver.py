@@ -553,9 +553,7 @@ def given_height(h, h1, h2):
 
 def get_coordinates(res_triangle: [float]):
     A_coords = (0, 0)
-    B_coords = (0, 0)
-    if res_triangle[2]:
-        B_coords = (res_triangle[2], 0)
+    B_coords = (res_triangle[2], 0)
     C_coords = (0, 0)
     if res_triangle[3] and res_triangle[1]:
         C_coords = (cos(res_triangle[3]) * res_triangle[1], res_triangle[8])
