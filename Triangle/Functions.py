@@ -25,8 +25,8 @@ def get_angle_from_height_and_side(height1, side2):
     return asin(height1 / side2)
 
 
-def get_height(Surface, side):
-    return 2 * Surface / side
+def get_height(surface, side):
+    return 2 * surface / side
 
 
 def get_surface(side_1, side_2, side_3):
@@ -45,5 +45,5 @@ def get_outer_radius(side, angle):
     return side / (2 * sin(angle))
 
 
-def get_inner_radius(Surface, Perimeter):
-    return 2 * Surface / Perimeter
+def get_inner_radius(surface, perimeter):
+    return 2 * surface / perimeter
