@@ -1,4 +1,4 @@
-from math import *
+from math import sqrt, sin, cos, asin, acos, pi
 
 
 def legit_angle(angle, given=0):
