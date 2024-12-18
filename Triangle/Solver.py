@@ -2,16 +2,14 @@ from Triangle.Functions import *
 
 
 def rotate_right(ls):
-    if len(ls) == 2:
+    if isinstance(ls, tuple):
         return rotate_right(ls[0]), rotate_right(ls[1])
     return [ls[2], ls[0], ls[1], ls[5], ls[3], ls[4], ls[8], ls[6], ls[7], ls[9], ls[10], ls[13], ls[11], ls[12], ls[16], ls[14], ls[15], ls[17], ls[18]]
 
-
 def switch_1_and_2(ls):
-    if len(ls) == 2:
+    if isinstance(ls, tuple):
         return switch_1_and_2(ls[0]), switch_1_and_2(ls[1])
     return [ls[0], ls[2], ls[1], ls[3], ls[5], ls[4], ls[6], ls[8], ls[7], ls[9], ls[10], ls[11], ls[13], ls[12], ls[14], ls[16], ls[15], ls[17], ls[18]]
-
 
 def side_angle_side1(side, side1, angle, angle1, angle2, h, h1, h2):
     R = get_outer_radius(side, angle)
@@ -122,7 +120,6 @@ def side_angle_side1(side, side1, angle, angle1, angle2, h, h1, h2):
     b_r = get_inner_radius(b_S, b_P)
     return [side, side1, a_side2, angle, a_angle1, a_angle2, a_h, a_h1, h2, a_P, a_S, a_m, a_m1, a_m2, a_b, a_b1, a_b2, R, a_r], [side, side1, b_side2, angle, b_angle1, b_angle2, b_h, b_h1, h2, b_P, b_S, b_m, b_m1, b_m2, b_b, b_b1, b_b2, R, b_r]
 
-
 def side_angle1_height1(side, angle1, h1, h2):
     if h1 > side or angle1 >= pi / 2 and h1 >= h2:
         raise ValueError("Invalid input!")
@@ -174,7 +171,6 @@ def side_angle1_height1(side, angle1, h1, h2):
     R = get_outer_radius(side, angle)
     r = get_inner_radius(S, P)
     return [side, side1, side2, angle, angle1, angle2, h, h1, h2, P, S, m, m1, m2, b, b1, b2, R, r]
-
 
 def side_height_height1(side, h, h1, h2, S):
     if h1 > side:
@@ -234,7 +230,6 @@ def side_height_height1(side, h, h1, h2, S):
     a_r = get_inner_radius(S, a_P)
     b_r = get_inner_radius(S, b_P)
     return [side, side1, a_side2, a_angle, a_angle1, a_angle2, h, h1, a_h2, a_P, S, a_m, a_m1, a_m2, a_b, a_b1, a_b2, a_R, a_r], [side, side1, b_side2, b_angle, b_angle1, b_angle2, h, h1, b_h2, b_P, S, b_m, b_m1, b_m2, b_b, b_b1, b_b2, b_R, b_r]
-
 
 def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
     if side1:
@@ -328,8 +323,7 @@ def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
             h1 = get_height(S, side1)
             h2 = get_height(S, side2)
         elif h1:
-            side2 = h1 / sin(angle)
-            return switch_1_and_2(side_angle_side1(side, side2, angle, angle2, angle1, h, h2, h1))
+            return switch_1_and_2(side_angle_side1(side, h1 / sin(angle), angle, angle2, angle1, h, h2, h1))
         elif h2:
             return switch_1_and_2(given_side(side, side2, side1, angle, angle2, angle1, h, h2, h1))
         else:
@@ -464,7 +458,6 @@ def given_side(side, side1, side2, angle, angle1, angle2, h, h1, h2):
     r = get_inner_radius(S, P)
     return [side, side1, side2, angle, angle1, angle2, h, h1, h2, P, S, m, m1, m2, b, b1, b2, R, r]
 
-
 def given_angle(angle, angle1, angle2, h, h1, h2):
     if angle1 or angle2:
         if angle1:
@@ -525,7 +518,6 @@ def given_angle(angle, angle1, angle2, h, h1, h2):
     r = get_inner_radius(S, P)
     return [side, side1, side2, angle, angle1, angle2, h, h1, h2, P, S, m, m1, m2, b, b1, b2, R, r]
 
-
 def given_height(h, h1, h2):
     if h1 and h2:
         if 1 / h + 1 / h1 <= 1 / h2 or 1 / h + 1 / h2 <= 1 / h1 or 1 / h1 + 1 / h2 <= 1 / h:
@@ -549,7 +541,6 @@ def given_height(h, h1, h2):
         return [side, side1, side2, angle, angle1, angle2, h, h1, h2, P, S, m, m1, m2, b, b1, b2, R, r]
     return [0] * 6 + [h, h1, h2] + [0] * 10
 
-
 def get_coordinates(res_triangle: [float]):
     B_coords = (res_triangle[2], 0)
     C_coords = (0, 0)
@@ -561,13 +552,11 @@ def get_coordinates(res_triangle: [float]):
         outer_center_x = res_triangle[2] / 2
         outer_center_y = (-1) ** (res_triangle[5] > pi / 2) * sqrt(res_triangle[17] ** 2 - outer_center_x ** 2)
     coordinates.append((outer_center_x, outer_center_y))
-    inner_radius_y = res_triangle[18]
-    inner_radius_x = 0
+    inner_radius_x, inner_radius_y = 0, res_triangle[18]
     if res_triangle[3]:
         inner_radius_x = inner_radius_y / tan(res_triangle[3] / 2)
     coordinates.append((inner_radius_x, inner_radius_y))
     return coordinates
-
 
 def calculate_triangle(a=0, b=0, c=0, A=0, B=0, C=0, h_a=0, h_b=0, h_c=0):
     A, B, C = radians(A), radians(B), radians(C)
@@ -587,7 +576,7 @@ def calculate_triangle(a=0, b=0, c=0, A=0, B=0, C=0, h_a=0, h_b=0, h_c=0):
         res = given_height(h_a, h_b, h_c)
     else:
         res = [0] * 7 + [h_b, h_c] + [0] * 10
-    if len(res) == 2:
+    if isinstance(res, tuple):
         res = (res[0] + get_coordinates(res[0]), res[1] + get_coordinates(res[1]))
         res = (res[0][:3] + list(map(degrees, res[0][3:6])) + res[0][6:], res[1][:3] + list(map(degrees, res[1][3:6])) + res[1][6:])
     else:
@@ -595,13 +584,12 @@ def calculate_triangle(a=0, b=0, c=0, A=0, B=0, C=0, h_a=0, h_b=0, h_c=0):
         res = res[:3] + list(map(degrees, res[3:6])) + res[6:]
     return res
 
-
 if __name__ == '__main__':
-    Triangle = ['a', 'b', 'c', 'A', 'B', 'C', 'h_a', 'h_b', 'h_c', 'P', 'S', 'm_a', 'm_b', 'm_c', 'b_a', 'b_b', 'b_c', 'R', 'r', 'A coordinates', 'B coordinates', 'C coordinates', 'triangle center', 'outer circle center', 'inner circle center']
+    triangle = ['a', 'b', 'c', 'A', 'B', 'C', 'h_a', 'h_b', 'h_c', 'P', 'S', 'm_a', 'm_b', 'm_c', 'b_a', 'b_b', 'b_c', 'R', 'r', 'A coordinates', 'B coordinates', 'C coordinates', 'triangle center', 'outer circle center', 'inner circle center']
     values = dict(map(lambda p: (p[0].strip(), abs(float(p[1].strip()))), map(lambda x: x.replace('ha', 'h_a').replace('hb', 'h_b').replace('hc', 'h_c').split('='), input().split(', '))))
     result = calculate_triangle(**values)
-    helper = lambda r: dict(zip(Triangle, list(map(lambda x: (round(x[0], 3), round(x[1], 3)) if isinstance(x, tuple) else round(x, 3), r))))
-    if len(result) == 2:
+    helper = lambda r: dict(zip(triangle, list(map(lambda x: (round(x[0], 3), round(x[1], 3)) if isinstance(x, tuple) else round(x, 3), r))))
+    if isinstance(result, tuple):
         print(*map(helper, result), sep='\n')
     else:
         print(helper(result))
